@@ -49,6 +49,10 @@ pub fn determine_posts(
             continue;
         }
 
+        if tweet.quoted_status.is_some() {
+            continue;
+        }
+
         for toot in mastodon_statuses {
             // If the tweet already exists we can stop here and know that we are
             // synced.
@@ -63,6 +67,7 @@ pub fn determine_posts(
         });
     }
 
+    /*
     'toots: for toot in mastodon_statuses {
         if toot.reblog.is_some() && !options.sync_reblogs {
             // Skip reblogs when sync_reblogs is disabled
@@ -91,6 +96,7 @@ pub fn determine_posts(
             attachments: toot_get_attachments(toot),
         });
     }
+    */
     updates
 }
 

@@ -7,7 +7,7 @@ use egg_mode::Token;
 use failure::format_err;
 use mammut::entities::status::Status;
 use mammut::media_builder::MediaBuilder;
-use mammut::status_builder::StatusBuilder;
+use mammut::status_builder::{StatusBuilder, Visibility};
 use mammut::Mastodon;
 use reqwest::header::CONTENT_TYPE;
 use std::fs::remove_file;
@@ -17,6 +17,7 @@ use tokio::prelude::*;
 
 pub async fn post_to_mastodon(mastodon: &Mastodon, toot: NewStatus) -> Result<Status> {
     let mut status = StatusBuilder::new(toot.text.clone());
+    status.visibility = Some(Visibility::Unlisted);
     // Post attachments first, if there are any.
     for attachment in toot.attachments {
         // Because we use async for egg-mode we also need to use reqwest in
